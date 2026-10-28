@@ -3,7 +3,19 @@ const Account = require("../models/Account");
 
 async function createAccount(req, res) {
   try {
-    const { name } = req.body;
+    const body = req.body;
+
+    if (
+  !body ||
+  typeof body !== "object" ||
+  Array.isArray(body)
+) {
+  return res.status(400).json({
+    message: "Request body must be a JSON object",
+  });
+}
+
+const { name } = body;
 
     // Validate the account name
     if (typeof name !== "string" || !name.trim()) {
